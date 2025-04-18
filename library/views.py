@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework import generics
-from library.models import Author
-from library.serializers import AuthorSerializer
+from library.models import Author, Book
+from library.serializers import AuthorSerializer, BookSerializer
 from rest_framework.decorators import api_view
 
 
@@ -31,3 +31,11 @@ def get_author(request, pk):
     obj = Author.objects.get(id=pk)
     serializer = AuthorSerializer(obj)
     return Response(serializer.data)
+
+
+@api_view(http_method_names=['GET'])
+def get_books(request):
+    queryset = Book.objects.all()
+    serializer = BookSerializer(queryset, many=True)
+    return Response(serializer.data)
+
